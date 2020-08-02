@@ -5,20 +5,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Getter
 @ToString
 public class UserInput {
 
-    private String uuid;
-    private String login;
     private String name;
-    private String creationDate;
+    private String login;
+    private LocalDate creationDate;
     private String password;
 
     private UserInput() {
-        uuid = UUID.randomUUID().toString();
-        creationDate = "now";
+        creationDate = LocalDate.now();
     }
 }
