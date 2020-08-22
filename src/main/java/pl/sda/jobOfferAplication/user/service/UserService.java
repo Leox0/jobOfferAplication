@@ -10,6 +10,5 @@ public interface UserService {
     void createUser(UserInput userInput) throws UserException;
     List<UserOutput> getAllUsers();
     UserOutput getUserById(Long id) throws UserException;
-
-
+    void deleteUserById(Long id) throws UserException;
 }

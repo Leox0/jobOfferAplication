@@ -43,4 +43,11 @@ public class UserController {
                 .build();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable(value = "id") Long id) throws UserException {
+        userService.deleteUserById(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
 }
