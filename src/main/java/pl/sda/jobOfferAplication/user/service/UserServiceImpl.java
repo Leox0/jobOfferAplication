@@ -28,7 +28,6 @@ public class UserServiceImpl implements UserService {
                                                             "    Must have at least one special symbol among @#$%\n" +
                                                             "    Password length should be between 8 and 20";
     public static final int CORRECT_LENGTH_USER_LOGIN = 6;
-    public static final String USER_FOR_GIVEN_LOGIN_DOESNT_EXIST = "User for given login doesn't exist";
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
@@ -57,11 +56,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserOutput getUserById(Long id) throws UserException {
+        Optional<UserEntity> optionalUserEntity = getOptionalUserEntityById(id);
+        return optionalUserEntity.get().toOutput();
+    }
+
+    private Optional<UserEntity> getOptionalUserEntityById(Long id) throws UserException {
         Optional<UserEntity> optionalUserEntity = userRepository.findById(id);
         if (!optionalUserEntity.isPresent()) {
             throw new UserException(NO_USER_FOUND_FOR_GIVEN_ID);
         }
-        return optionalUserEntity.get().toOutput();
+        return optionalUserEntity;
     }
 
     private void validateUserIntput(UserInput userInput) throws UserException {
@@ -88,9 +92,7 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public void deleteUserById(Long id) throws UserException {
-        if(!userRepository.existsUserEntityById(id)){
-            throw new UserException(USER_FOR_GIVEN_LOGIN_DOESNT_EXIST);
-        }
+        getOptionalUserEntityById(id);
         userRepository.deleteById(id);
     }
 

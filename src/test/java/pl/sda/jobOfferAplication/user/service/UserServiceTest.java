@@ -1,6 +1,5 @@
 package pl.sda.jobOfferAplication.user.service;
 
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -9,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.sda.jobOfferAplication.user.entity.UserEntity;
 import pl.sda.jobOfferAplication.user.exception.UserException;
 import pl.sda.jobOfferAplication.user.model.UserInput;
-import pl.sda.jobOfferAplication.user.model.UserOutput;
 import pl.sda.jobOfferAplication.user.repository.UserRepository;
 
 
@@ -69,7 +67,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenLoginIsTooShort() throws UserException {
+    public void shouldThrowExceptionWhenLoginIsTooShort() {
         //given
         UserInput userInput = new UserInput("Tomek", "Tome2", "Tomek231@");
 
@@ -86,7 +84,7 @@ class UserServiceTest {
 
 
     @Test
-    public void shouldThrowExceptionWhenUserPasswordIsIncorrect() throws UserException {
+    public void shouldThrowExceptionWhenUserPasswordIsIncorrect(){
         //given
         UserInput userInput = new UserInput("Tomek", "Tomek12345", "Tomek231");
 
@@ -102,28 +100,28 @@ class UserServiceTest {
     }
 
     @Test
-    public void withPossibilityToDeleteUser() throws UserException{
+    public void withPossibilityToDeleteUser() throws UserException {
         //given
-        UserInput userInput = new UserInput ( "Tomek", "Tomek12345", "Tomek231@");
-        userService.createUser ( userInput );
+        UserInput userInput = new UserInput("Tomek", "Tomek12345", "Tomek231@");
+        userService.createUser(userInput);
 
         //when
-        userService.deleteUserById ( 1L );
+        userService.deleteUserById(1L);
 
         //then
         List<UserEntity> allUsers = userRepository.findAll();
         assertTrue(allUsers.size() == 0);
     }
+
     @Test
-    public void shouldIDeleteUserWhenThereIsNoUser() throws UserException{
+    public void shouldThrowExceptionDeletingUserWhenThereIsNoUser() {
         //given
-        UserInput userInput = new UserInput ( "Tomek", "Tomek12345", "Tomek231@");
-        userService.createUser ( userInput );
+
         //when
-        Executable executable = () -> userService.deleteUserById ( 1L );
+        Executable executable = () -> userService.deleteUserById(1L);
 
         //then
-        UserException userException = assertThrows ( UserException.class,executable );
-        assertEquals ( NO_USER_FOUND_FOR_GIVEN_ID,userException.getMessage () );
+        UserException userException = assertThrows(UserException.class, executable);
+        assertEquals(NO_USER_FOUND_FOR_GIVEN_ID, userException.getMessage());
     }
 }
