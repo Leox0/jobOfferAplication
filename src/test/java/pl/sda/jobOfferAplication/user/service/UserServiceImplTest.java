@@ -55,14 +55,12 @@ class UserServiceImplTest {
         userRepository.save ( userEntity );
 
         //when
-        UserOutput userById = userService.getUserById ( 1L );
+        UserOutput userById = userService.getUserById (1L);
 
         //then
-        assertTrue ( ! (userById == null) );
-        UserOutput userOutput = userEntity.toOutput ( );
-        assertEquals ( userOutput.getName ( ) , userById.getName ( ) );
-        assertEquals ( userOutput.getLogin ( ) , userById.getLogin ( ) );
-        LocalDate creationDate = userOutput.getCreationDate ( );
+        assertTrue (!(userById == null));
+        UserOutput userOutput = userEntity.toOutput ();
+        assertEquals ( userOutput.getName () , userById.getName () );
+        assertEquals ( userOutput.getLogin () , userById.getLogin () );
     }
 }
-
