@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.sda.jobOfferAplication.user.exeption.UserException;
+import pl.sda.jobOfferAplication.user.exception.UserException;
 import pl.sda.jobOfferAplication.user.model.*;
 import pl.sda.jobOfferAplication.user.service.UserService;
 

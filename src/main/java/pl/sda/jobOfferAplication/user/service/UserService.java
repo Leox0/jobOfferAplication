@@ -1,6 +1,6 @@
 package pl.sda.jobOfferAplication.user.service;
 
-import pl.sda.jobOfferAplication.user.exeption.UserException;
+import pl.sda.jobOfferAplication.user.exception.UserException;
 import pl.sda.jobOfferAplication.user.model.UserInput;
 import pl.sda.jobOfferAplication.user.model.UserOutput;
 
