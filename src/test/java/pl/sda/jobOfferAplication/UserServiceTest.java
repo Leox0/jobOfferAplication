@@ -1,5 +1,4 @@
-package pl.sda.jobOfferAplication.user.service;
-
+package pl.sda.jobOfferAplication;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,16 +7,12 @@ import pl.sda.jobOfferAplication.user.entity.UserEntity;
 import pl.sda.jobOfferAplication.user.exception.UserException;
 import pl.sda.jobOfferAplication.user.model.UserOutput;
 import pl.sda.jobOfferAplication.user.repository.UserRepository;
-import java.util.Optional;
+import pl.sda.jobOfferAplication.user.service.UserService;
 import java.time.LocalDate;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.*;
-public class UserServiceTests {
-
     @SpringBootTest
-    class UserServiceTestsServiceTest {
+    class UserServiceTest {
 
         @Autowired
         UserService userService;
@@ -48,4 +43,3 @@ public class UserServiceTests {
             assertEquals ( userOutput.getLogin () , userById.getLogin () );
         }
     }
-}
