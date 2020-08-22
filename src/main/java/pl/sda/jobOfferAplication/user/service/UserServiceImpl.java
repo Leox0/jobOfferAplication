@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
                                                             "    Must have at least one special symbol among @#$%\n" +
                                                             "    Password length should be between 8 and 20";
     public static final int CORRECT_LENGTH_USER_LOGIN = 6;
+    public static final String USER_FOR_GIVEN_LOGIN_DOESNT_EXIST = "User for given login doesn't exist";
     private UserRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
@@ -85,4 +86,12 @@ public class UserServiceImpl implements UserService {
     private boolean validateLenghtUserLogin(String login) {
         return login.length() >= CORRECT_LENGTH_USER_LOGIN;
     }
+    @Override
+    public void deleteUserById(Long id) throws UserException {
+        if(!userRepository.existsUserEntityById(id)){
+            throw new UserException(USER_FOR_GIVEN_LOGIN_DOESNT_EXIST);
+        }
+        userRepository.deleteById(id);
+    }
+
 }
