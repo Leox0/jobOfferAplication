@@ -29,6 +29,7 @@ class UserServiceTest {
 
     @AfterEach
     void tearDown() {
+
         userRepository.deleteAll();
     }
 
@@ -98,5 +99,31 @@ class UserServiceTest {
 
         UserException userException = assertThrows(UserException.class, executable);
         assertEquals(USER_PASSWORD_IS_INCORRECT, userException.getMessage());
+    }
+
+    @Test
+    public void withPossibilityToDeleteUser() throws UserException{
+        //given
+        UserInput userInput = new UserInput ( "Tomek", "Tomek12345", "Tomek231@");
+        userService.createUser ( userInput );
+
+        //when
+        userService.deleteUserById ( 1L );
+
+        //then
+        List<UserEntity> allUsers = userRepository.findAll();
+        assertTrue(allUsers.size() == 0);
+    }
+    @Test
+    public void shouldIDeleteUserWhenThereIsNoUser() throws UserException{
+        //given
+        UserInput userInput = new UserInput ( "Tomek", "Tomek12345", "Tomek231@");
+        userService.createUser ( userInput );
+        //when
+        Executable executable = () -> userService.deleteUserById ( 1L );
+
+        //then
+        UserException userException = assertThrows ( UserException.class,executable );
+        assertEquals ( NO_USER_FOUND_FOR_GIVEN_ID,userException.getMessage () );
     }
 }
