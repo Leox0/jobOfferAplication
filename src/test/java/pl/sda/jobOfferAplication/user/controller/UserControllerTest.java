@@ -105,8 +105,15 @@ class UserControllerTest {
         //given
         UserInput userInput = new UserInput("Jan", "Janek210321", "Janko2103@");
         userService.createUser(userInput);
+        Long uuid = userRepository.findAll()
+                .stream()
+                .findFirst()
+                .get()
+                .toOutput()
+                .getUuid();
+
         final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get(USERS_MAPPING + "/1")
+                .get(USERS_MAPPING + "/" + uuid)
                 .contentType(MediaType.APPLICATION_JSON_VALUE);
 
         //when
