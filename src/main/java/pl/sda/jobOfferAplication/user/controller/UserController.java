@@ -11,8 +11,11 @@ import pl.sda.jobOfferAplication.user.service.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping(UserController.USERS_MAPPING)
 public class UserController {
+    public static final String USERS_MAPPING = "/users";
+
+
 
     //CONTROLLER <-> SERVICE <-> REPOSITORY <-> DB
 
