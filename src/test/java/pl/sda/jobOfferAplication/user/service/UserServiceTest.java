@@ -1,5 +1,6 @@
 package pl.sda.jobOfferAplication.user.service;
 
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -8,9 +9,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import pl.sda.jobOfferAplication.user.entity.UserEntity;
 import pl.sda.jobOfferAplication.user.exception.UserException;
 import pl.sda.jobOfferAplication.user.model.UserInput;
+import pl.sda.jobOfferAplication.user.model.UserOutput;
 import pl.sda.jobOfferAplication.user.repository.UserRepository;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +30,6 @@ class UserServiceTest {
 
     @AfterEach
     void tearDown() {
-
         userRepository.deleteAll();
     }
 
@@ -67,7 +69,7 @@ class UserServiceTest {
     }
 
     @Test
-    public void shouldThrowExceptionWhenLoginIsTooShort() {
+    public void shouldThrowExceptionWhenLoginIsTooShort() throws UserException {
         //given
         UserInput userInput = new UserInput("Tomek", "Tome2", "Tomek231@");
 
@@ -84,7 +86,7 @@ class UserServiceTest {
 
 
     @Test
-    public void shouldThrowExceptionWhenUserPasswordIsIncorrect(){
+    public void shouldThrowExceptionWhenUserPasswordIsIncorrect() throws UserException {
         //given
         UserInput userInput = new UserInput("Tomek", "Tomek12345", "Tomek231");
 
@@ -123,5 +125,28 @@ class UserServiceTest {
         //then
         UserException userException = assertThrows(UserException.class, executable);
         assertEquals(NO_USER_FOUND_FOR_GIVEN_ID, userException.getMessage());
+    }
+
+    @Test
+    public void isPossibleToFindUserById() throws UserException {
+
+        //given
+
+        UserInput userInput = new UserInput("adam", "wfwfwfwfwf", "Tomek231@");
+        userService.createUser(userInput);
+        Long uuid = userRepository.findAll()
+                .stream()
+                .findFirst()
+                .get()
+                .toOutput()
+                .getUuid();
+        //when
+
+        UserOutput userById = userService.getUserById(uuid);
+
+        //then
+        assertTrue(!(userById == null));
+        assertEquals(userInput.getName(), userById.getName());
+        assertEquals(userInput.getLogin(), userById.getLogin());
     }
 }
