@@ -123,11 +123,20 @@ class UserControllerTest {
     @Test
     public void shouldFindUserById ( ) throws Exception{
         //given
-        UserInput userInput = new UserInput ( "Jan" , "Janek210321" , "Janko2103@" );
-        userService.createUser ( userInput );
+
+        UserInput userInput = new UserInput("Jan", "Janek210321", "Janko2103@");
+        userService.createUser(userInput);
+        Long uuid = userRepository.findAll()
+                .stream()
+                .findFirst()
+                .get()
+                .toOutput()
+                .getUuid();
+
         final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get ( USERS_MAPPING + "/1" )
-                .contentType ( MediaType.APPLICATION_JSON_VALUE );
+                .get(USERS_MAPPING + "/" + uuid)
+                .contentType(MediaType.APPLICATION_JSON_VALUE);
+
 
         //when
         final ResultActions resultActions = mockMvc.perform ( requestBuilder );
@@ -153,5 +162,39 @@ class UserControllerTest {
 
         //then
         resultActions.andExpect ( MockMvcResultMatchers.status ( ).isNotFound ( ) );
+    }
+}
+    @Test
+    public void shouldThrowExceptionWhenCreateUsersWithTheSameLogin() throws Exception {
+        //given
+        UserInput userInput = new UserInput("Jan", "Janek210321", "Janko2103@");
+        userService.createUser(userInput);
+        UserInput userInput2 = new UserInput("Jan2", "Janek210321", "Janko21032@");
+        final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post(USERS_MAPPING)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(toJson(userInput2));
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        //then
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenLoginIsTooShort() throws Exception {
+        //given
+        UserInput userInput = new UserInput("Jan", "Jan1", "Janko2103@");
+        final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post(USERS_MAPPING)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(toJson(userInput));
+
+        //when
+        final ResultActions resultActions = mockMvc.perform(requestBuilder);
+
+        //then
+        resultActions.andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }
