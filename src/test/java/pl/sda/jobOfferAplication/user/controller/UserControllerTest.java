@@ -163,7 +163,7 @@ class UserControllerTest {
         //then
         resultActions.andExpect ( MockMvcResultMatchers.status ( ).isNotFound ( ) );
     }
-}
+
     @Test
     public void shouldThrowExceptionWhenCreateUsersWithTheSameLogin() throws Exception {
         //given
