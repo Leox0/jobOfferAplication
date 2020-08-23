@@ -106,9 +106,14 @@ class UserServiceTest {
         //given
         UserInput userInput = new UserInput("Tomek", "Tomek12345", "Tomek231@");
         userService.createUser(userInput);
-
+        Long uuid = userRepository.findAll()
+                .stream()
+                .findFirst()
+                .get()
+                .toOutput()
+                .getUuid();
         //when
-        userService.deleteUserById(1L);
+        userService.deleteUserById(uuid);
 
         //then
         List<UserEntity> allUsers = userRepository.findAll();
