@@ -13,7 +13,9 @@ import pl.sda.jobOfferAplication.user.model.UserOutput;
 import pl.sda.jobOfferAplication.user.repository.UserRepository;
 
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static pl.sda.jobOfferAplication.user.service.UserServiceImpl.*;
@@ -98,5 +100,28 @@ class UserServiceTest {
 
         UserException userException = assertThrows(UserException.class, executable);
         assertEquals(USER_PASSWORD_IS_INCORRECT, userException.getMessage());
+    }
+
+    @Test
+    public void isPossibleToFindUserById() throws UserException {
+
+        //given
+
+        UserInput userInput = new UserInput("adam", "wfwfwfwfwf", "Tomek231@");
+        userService.createUser(userInput);
+        Long uuid = userRepository.findAll()
+                .stream()
+                .findFirst()
+                .get()
+                .toOutput()
+                .getUuid();
+        //when
+
+        UserOutput userById = userService.getUserById(uuid);
+
+        //then
+        assertTrue(!(userById == null));
+        assertEquals(userInput.getName(), userById.getName());
+        assertEquals(userInput.getLogin(), userById.getLogin());
     }
 }
