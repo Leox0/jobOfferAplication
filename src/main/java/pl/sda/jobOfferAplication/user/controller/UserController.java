@@ -15,8 +15,6 @@ import java.util.List;
 public class UserController {
     public static final String USERS_MAPPING = "/users";
 
-
-
     //CONTROLLER <-> SERVICE <-> REPOSITORY <-> DB
 
     @Autowired //można przez konstruktor
