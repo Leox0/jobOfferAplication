@@ -45,7 +45,7 @@ class UserControllerTest {
         UserInput userInput = new UserInput("Jan", "Janek210321", "Janko2103@");
         userService.createUser(userInput);
         final MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get(USERS_MAPPING)
+                .get(USERS_MAPPING + "/1")
                 .contentType(MediaType.APPLICATION_JSON_VALUE);
 
         //when
