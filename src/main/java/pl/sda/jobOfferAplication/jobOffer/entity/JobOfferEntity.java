@@ -3,19 +3,29 @@ package pl.sda.jobOfferAplication.jobOffer.entity;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
 import pl.sda.jobOfferAplication.jobOffer.model.JobOfferCategory;
-import pl.sda.jobOfferAplication.user.model.UserOutput;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Table(name = "JOB OFFERS")
+@Table(name = "JOB_OFFERS")
 public class JobOfferEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private JobOfferCategory category;
+    private String startDate;
+    private String endDate;
+
+    public JobOfferEntity(Long id, JobOfferCategory category, String startDate, String endDate) {
+        this.id = id;
+        this.category = category;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
 }
 
