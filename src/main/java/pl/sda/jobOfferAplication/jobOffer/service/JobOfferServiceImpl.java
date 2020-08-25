@@ -1,4 +1,9 @@
 package pl.sda.jobOfferAplication.jobOffer.service;
 
-public class JobOfferServiceImpl {
+import org.springframework.stereotype.Service;
+
+@Service
+public class JobOfferServiceImpl implements JobOfferService {
+
+
 }
